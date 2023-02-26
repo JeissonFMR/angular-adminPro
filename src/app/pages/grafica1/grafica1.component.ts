@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ChartData, ChartType } from 'chart.js';
 
 @Component({
   selector: 'app-grafica1',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./grafica1.component.css']
 })
 export class Grafica1Component {
+
+  labels1: string[] = ['Pan', 'Chorizo', 'Mas pan'];
 
 }
