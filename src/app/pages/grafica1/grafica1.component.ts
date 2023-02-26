@@ -8,6 +8,6 @@ import { ChartData, ChartType } from 'chart.js';
 })
 export class Grafica1Component {
 
-  labels1: string[] = ['Pan', 'Chorizo', 'Mas pan'];
+  public labels1: string[] = ['Pan', 'Chorizo', 'Mas pan'];
 
 }
