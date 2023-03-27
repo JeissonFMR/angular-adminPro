@@ -7,7 +7,13 @@ import { UsuarioService } from '../../services/usuario.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  constructor(private usuarioService: UsuarioService) { }
+
+  public user: any
+
+
+  constructor(private usuarioService: UsuarioService) {
+    this.user = this.usuarioService.usuario;
+  }
 
   logOut() {
     this.usuarioService.logout()

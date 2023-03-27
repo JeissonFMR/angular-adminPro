@@ -7,11 +7,12 @@ import { PagesComponent } from './pages.component';
 import { SharedModule } from '../shared/shared.module';
 import { AppRoutingModule } from '../app-routing.module';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '../components/components.module';
 
 import { NgChartsModule } from 'ng2-charts';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
     ProgressComponent,
     Grafica1Component,
     PagesComponent,
-    AccountSettingsComponent
+    AccountSettingsComponent,
+    PerfilComponent
   ],
   exports: [
     DashboardComponent,
@@ -35,7 +37,8 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
     AppRoutingModule,
     FormsModule,
     ComponentsModule,
-    NgChartsModule
+    NgChartsModule,
+    ReactiveFormsModule
 
 
   ]

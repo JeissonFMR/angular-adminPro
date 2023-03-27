@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, tap, Observable, catchError, of } from 'rxjs';
 import { enviroment } from '../../enviroments/enviroment';
+import { Usuario } from '../models/usuario.model';
 
 
 const base_url = enviroment.api;
@@ -11,18 +12,31 @@ const base_url = enviroment.api;
 })
 export class UsuarioService {
 
+
+  public usuario: any;
+
   constructor(private http: HttpClient, private router: Router) { }
 
+
+  get token(): string {
+    return localStorage.getItem('token') || ''
+  }
+  get uid(): string {
+    return this.usuario._id || '';
+  }
+
   validarToken(): Observable<boolean> {
-    const token = localStorage.getItem('token') || ''
     return this.http.get(`${base_url}/login/renew`, {
       headers: {
-        'x-token': token
+        'x-token': this.token
       }
     }).pipe(
-      tap((res: any) => {
+      map((res: any) => {
+        const { _id, email, nombre, role, google, img } = res.usuario;
+        this.usuario = new Usuario(_id, email, nombre, '', role, google, img);
         localStorage.setItem('token', res.msg)
-      }), map(res => true),
+        return true
+      }),
       catchError(error => of(false))
     )
   }
@@ -30,6 +44,20 @@ export class UsuarioService {
 
   crearUsuario(formData: any) {
     return this.http.post(`${base_url}/usuarios`, formData)
+  }
+
+  actualizarPerfil(data: { email: string, nombre: string, role: string }) {
+
+    data = {
+      ...data,
+      role: this.usuario.role
+    }
+
+    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, {
+      headers: {
+        'x-token': this.token
+      }
+    });
   }
 
   logout() {
@@ -47,4 +75,9 @@ export class UsuarioService {
         })
       )
   }
+
+
+  // getImagenUsuario() {
+  //   this.http.post
+  // }
 }
