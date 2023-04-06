@@ -1,0 +1,80 @@
+<div class="row animated fadeIn fast">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body" (keyup)="buscar()" [formGroup]="miFormulario">
+        <input type="text" formControlName="buscar" class="form-control" placeholder="BUscar usuario...">
+
+        <h1>{{miFormulario.value |json}}</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row animated fadeIn fast" *ngIf="cargando">
+  <div class="col-12">
+    <div class="alert alert-info text-center">
+      <h4 class="alert-heading">Cargando...</h4>
+      <i class="fa fa-spin fa-refresh fa-2x"></i>
+      <p class="mb-0">Por favor espere</p>
+    </div>
+  </div>
+</div>
+
+<div class="row animated fadeIn fast" *ngIf="!cargando">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Total de Usuarios ({{totalUusarios}}) - {{pagina_desde}}</h4>
+        <h6 class="card-subtitle">Usuarios registrados en mi aplicación</h6>
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th class="w100">Avatar</th>
+                <th>Correo</th>
+                <th>Nombre</th>
+                <th class="w100">Role</th>
+                <th class="w100">Auth</th>
+                <th class="text-nowrap w100">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let usuario of usuarios">
+                <td>
+                  <!-- {{usuario.imagenUrl}} -->
+                  <img (click)="abrirModal(usuario)" [src]="usuario.imagenUrl" alt="Avatar" class="w100 cursor">
+                </td>
+                <td>{{usuario.email}}</td>
+                <td>{{usuario.nombre}}</td>
+                <td>
+                  <select class="form-control w150" [(ngModel)]="usuario.role" (change)="cambiarRole(usuario)">
+                    <option value="ADMIN_ROLE">Admin</option>
+                    <option value="USER_ROLE">User</option>
+                  </select>
+                </td>
+
+                <td>
+                  <span *ngIf="usuario.google" class="label label-danger">Google</span>
+                  <span *ngIf="!usuario.google" class="label label-info">Email</span>
+                </td>
+
+                <td class="text-nowrap">
+
+                  <a (click)="eliminarUsuario(usuario)" data-toggle="tooltip" class="cursor"
+                    data-original-title="Borrar"> <i class="fa fa-close text-danger"></i>
+                  </a>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <button (click)="cambiarPagina(-5)" class="btn btn-secondary">Anteriores</button>
+        &nbsp;
+        <button (click)="cambiarPagina(5)" class="btn btn-secondary">Siguientes</button>
+      </div>
+    </div>
+  </div>
+</div>

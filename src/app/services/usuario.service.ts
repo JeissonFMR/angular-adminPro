@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { map, tap, Observable, catchError, of } from 'rxjs';
 import { enviroment } from '../../enviroments/enviroment';
 import { Usuario } from '../models/usuario.model';
+import { CargarUsuario } from '../models/cargarUsuario';
 
 
 const base_url = enviroment.api;
@@ -14,6 +15,8 @@ export class UsuarioService {
 
 
   public usuario: any;
+  public t = Usuario;
+
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -32,6 +35,7 @@ export class UsuarioService {
       }
     }).pipe(
       map((res: any) => {
+        console.log('respuesta de validar token 😀', res);
         const { _id, email, nombre, role, google, img } = res.usuario;
         this.usuario = new Usuario(_id, email, nombre, '', role, google, img);
         localStorage.setItem('token', res.msg)
@@ -48,11 +52,11 @@ export class UsuarioService {
 
   actualizarPerfil(data: { email: string, nombre: string, role: string }) {
 
+
     data = {
       ...data,
       role: this.usuario.role
     }
-
     return this.http.put(`${base_url}/usuarios/${this.uid}`, data, {
       headers: {
         'x-token': this.token
@@ -77,7 +81,42 @@ export class UsuarioService {
   }
 
 
-  // getImagenUsuario() {
-  //   this.http.post
-  // }
+
+  cargarUsuarios(desde: number = 0) {
+    return this.http.get<CargarUsuario>(`${base_url}/usuarios?desde=${desde}`, {
+      headers: {
+        'x-token': this.token
+      }
+    }).pipe(map(res => {
+      // console.log(res);
+      const usuarios = res.usuarios.map(user => new Usuario(user._id, user.email, user.nombre, '', user.role, user.google, user.img))
+      return {
+        totalUsuarios: res.totalUsuarios,
+        usuarios
+      }
+    }))
+  }
+
+
+  eliminarUsuario(usuario: Usuario) {
+
+
+    return this.http.delete(`${base_url}/usuarios/${usuario._id}`, {
+      headers: {
+        'x-token': this.token
+      }
+    })
+
+  }
+
+
+  actualizarRole(data: Usuario) {
+
+    return this.http.put(`${base_url}/usuarios/${data._id}`, data, {
+      headers: {
+        'x-token': this.token
+      }
+    });
+  }
+
 }

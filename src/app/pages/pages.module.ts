@@ -13,6 +13,9 @@ import { ComponentsModule } from '../components/components.module';
 import { NgChartsModule } from 'ng2-charts';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PerfilComponent } from './perfil/perfil.component';
+import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component';
+import { PromesasComponent } from './promesas/promesas.component';
+import { RxjsComponent } from './rxjs/rxjs.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { PerfilComponent } from './perfil/perfil.component';
     Grafica1Component,
     PagesComponent,
     AccountSettingsComponent,
-    PerfilComponent
+    PerfilComponent,
+    UsuariosComponent,
+    PromesasComponent,
+    RxjsComponent
   ],
   exports: [
     DashboardComponent,

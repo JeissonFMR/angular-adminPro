@@ -44,7 +44,7 @@ export class PerfilComponent {
   }
 
 
-  public cambiarImagen(event: Event) {
+  cambiarImagen(event: Event) {
     const inputElement = event.target as HTMLInputElement; // castear a HTMLInputElement
     if (inputElement.files && inputElement.files.length > 0) { // verificar que exista 'files'
       const file = inputElement.files[0];
